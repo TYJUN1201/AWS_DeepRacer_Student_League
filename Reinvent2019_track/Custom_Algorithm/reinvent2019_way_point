@@ -1,0 +1,102 @@
+def reward_function(params):
+
+    center_variance = params["distance_from_center"] / params["track_width"]
+    steering_angle = params['steering_angle']
+    
+
+    #
+    All_lane = [118, 117, 116, 115, 114, 113, 112, 111, 110, 109, 108, 107, 106, 105, 104, 103,
+102, 101, 100, 99, 98, 97, 96, 95, 94, 93, 92, 91, 90, 89, 88, 87, 86, 85, 84, 83, 82, 81, 80, 
+79, 78, 77, 76, 75, 74, 73, 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60, 59, 58, 57, 56,
+55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 
+31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 
+6, 5, 4, 3, 2, 1, 0]
+    
+    #C1_lane
+    center_lane = [64, 63, 62, 61, 60, 59, 58, 57, 56,55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 
+45, 44, 43, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 
+118, 117, 116, 115, 114, 113, 112, 111]
+    
+    right_lane = [70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 
+24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+    
+    #C1_lane
+    C1_line = [109, 108, 107, 106, 105, 104, 103]
+    
+    #C2_lane
+    C2_line = [102, 101, 100, 99, 98, 97, 96, 95, 94, 93, 92, 91, 90, 89, 88]
+    
+    #C3_lane
+    C3_line = [87, 86, 85, 84, 83, 82, 81, 80, 79, 78, 77, 76, 75, 74, 73, 72, 71, 70, 69, 68, 67, 66, 65]
+
+    #C4_lane
+    C4_line = [64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40,]
+
+    #C5_lane
+    C5_line = [39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21]
+
+    #C6_lane
+    C6_line = [20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 118, 117, 116, 115, 114, 113, 112, 111, 110]
+    
+    #curve_line = [110, 109, 108, 107, 106, 105, 104, 103, 102, 101, 100, 99, 98, 97, 96, 95, 94,
+93, 92, 91, 90, 89, 88, 87, 86, 85, 84, 83, 82, 81, 80, 79, 78, 77, 76, 75, 74, 73, 72, 71, 70, 
+69, 68, 67, 66, 65, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 
+23]
+
+
+    #Speed
+    #
+    fast = [61, 60, 59, 58, 57, 56, 55, 54, 49, 48, 47, 46, 40, 39, 38, 37, 36, 35, 34, 30, 29, 28, 27, 26, 25, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 69] #Fill in the waypoints, 1m/s
+
+
+    slow = [64, 63, 62, 53, 52, 51, 50, 45, 44, 43, 42, 41, 33, 32, 31, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11] #Fill in the waypoints, 0.8m/s
+    
+    reward = 21
+
+    if -17.0 > steering_angle and steering_angle < 17.0:
+        reward += 10
+    else:
+        reward -= 10    
+
+    # Stay on track
+    if params["all_wheels_on_track"]:
+        reward += 1
+    else:
+        reward -= 1
+    
+
+    #C1
+    if params["closest_waypoints"][1] in C1_lane and params["is_left_of_center"] and center_variance >= 0.8:
+        reward += 10
+    #C2
+    elif params["closest_waypoints"][1] in C2_lane and params["is_left_of_center"] and center_variance <= 0.3:
+        reward += 10
+    #C3
+    elif params["closest_waypoints"][1] in C3_lane and params["is_left_of_center"] and center_variance >= 0.8:
+        reward += 10
+    #C4
+    elif params["closest_waypoints"][1] in C4_lane and center_variance <= 0.3:
+        reward += 10
+    #C5
+    elif params["closest_waypoints"][1] in C5_lane and params["is_left_of_center"] and center_variance >= 0.8:
+        reward += 10
+    #C6
+    elif params["closest_waypoints"][1] in C6_lane and center_variance <= 0.3:
+        reward += 10
+    else:
+        reward -= 10
+
+    # Speed up
+    if params["closest_waypoints"][1] in fast:
+        if params["speed"] >= 1 :
+            reward += 10
+        else:
+            reward -= 10
+    elif params["closest_waypoints"][1] in slow:
+        if params["speed"] >= 0.8 :
+            reward += 10
+        else:
+            reward -= 10
+        
+    
+    return float(reward)
