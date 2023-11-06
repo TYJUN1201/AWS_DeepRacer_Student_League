@@ -8,4 +8,5 @@ An algorithm that marks 10 marker outwards from the centre line of the track, wi
 1. Create a circle with radius X centred on the agent and find the intersection point between the centre line of the track and the circle.
 2. Calculates the angle formed between the front wheel of agents and this intersection point.
 3. Provide feedback that the angle is inversely proportional to the reward (the smaller the angle, the larger the reward)
+
 *Due to the limited number of track waypoints from the environmental feedback, the **up_sample(track_waypoints, Y_times)** function can expand the list of track waypoints by Y times to be used in calculating the **intersection point** in **step 2**.
