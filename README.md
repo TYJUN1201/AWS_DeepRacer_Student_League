@@ -10,3 +10,12 @@ An algorithm that marks 10 marker outwards from the centre line of the track, wi
 3. Provide feedback that the angle is inversely proportional to the reward (the smaller the angle, the larger the reward)
 
 *Due to the limited number of track waypoints from the environmental feedback, the **up_sample(track_waypoints, Y_times)** function can expand the list of track waypoints by Y times to be used in calculating the **intersection point** in **step 2**.
+
+# Radius_Target_Algorithm_2.0 (Advanced Algorithm BASED ON Radius_Target_Algorithm)
+1. Create **3** circleS with radius R1, R2, R3 centred on the agent and find the intersection points between the centre line of the track and the circles.
+2. Calculates the angle formed between the agent's front wheel and these intersection points.
+3. Defines the maximum angle of the agent's front wheels, accepts the angle that are less than or equal to the threshold angle.
+4. Provide feedback that the angle is inversely proportional to the reward (the smaller the angle, the larger the reward)
+
+*Due to the limited number of track waypoints from the environmental feedback, the **up_sample(track_waypoints, Y_times)** function can expand the list of track waypoints by Y times to be used in calculating the **intersection point** in **step 2**.
+
